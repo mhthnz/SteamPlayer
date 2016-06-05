@@ -1,5 +1,5 @@
 # SteamPlayer
-Class for working with Steam Api. It consist of two main classes: SteamPlayer, SteamPlayerCollection.
+Class for working with Steam Api. It consist of two main classes: `SteamPlayer`, `SteamPlayerCollection`.
 * `SteamPlayer` is decorator for object with steam data, extending its addition funcionality.
 * `SteamPlayerCollection` consist of SteamPlayer instances, give possibility for search instances according to some criteria.
 
@@ -120,18 +120,19 @@ Load from steam id:
 ```
 
 # Exceptions
-	// Base class of exception:
-	`SteamException()`
+Base class of exception:
+* `SteamException()`
 
-	// Child classes:
-	`HttpSteamException()` // When is request error
-	`FileSteamException()` // When is error save file
-	`InvalidParamsSteamException()` // When sending invalid params to request
+Child classes:
+* `HttpSteamException()` // When is request error
+* `FileSteamException()` // When is error save file
+* `InvalidParamsSteamException()` // When sending invalid params to request
 
 **Examples:**
 
+All steam exceptions:
+
 ```php
-	// All steam exceptions
 	try {
 		some code...
 	}
@@ -139,8 +140,11 @@ Load from steam id:
 		echo 'I have error: '.$error->getMessage();
 	}
 ```
+
+
+Save file:
+
 ```php
-	// Save file
 	try {
 		$instance->saveAvatar('notfounddir/1.jpg');
 	}
@@ -148,8 +152,11 @@ Load from steam id:
 		echo 'I can not save the file: '.$error->getMessage();
 	}
 ```
+
+
+Params error:
+
 ```php
-	// Params error 
 	try {
 		SteamPlayer::$API_KEY = 'invalid api key';
 		SteamPlayer::getPlayer('xxxxxxxxxxxxxx');
@@ -158,8 +165,10 @@ Load from steam id:
 		echo 'Invalid params: '.$error->getMessage();
 	}
 ```
+
+
+Http error:
 ```php
-	// Http error 
 	try {
 		SteamPlayer::getPlayer('xxxxxxxxxxxxxx');
 	}
@@ -167,6 +176,7 @@ Load from steam id:
 		echo 'I can not send request: '.$error->getMessage();
 	}
 ```
+
 # Usage examples
 Get game name of users from RU, EN, UA countries:
 
