@@ -1,33 +1,49 @@
 # SteamPlayer
-	Class for working with Steam Api. It consist of two main classes: SteamPlayer, SteamPlayerCollection.
-	* SteamPlayer is decorator for object with steam data, extending its addition funcionality.
-	* SteamPlayerCollection consist of SteamPlayer instances, give possibility for search instances according to some criteria.
+Class for working with Steam Api. It consist of two main classes: SteamPlayer, SteamPlayerCollection.
+* `SteamPlayer` is decorator for object with steam data, extending its addition funcionality.
+* `SteamPlayerCollection` consist of SteamPlayer instances, give possibility for search instances according to some criteria.
 
 # To start
-	//You must set Steam Api Key:
-	SteamPlayer::$API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+You must set Steam Api Key:
+
+```php
+SteamPlayer::$API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+```
 
 # Easy to use
-	//Get one object with Steam data.
+Get one object with Steam data:
+
+```php
 	$steamID = 'xxxxxxxxxxxxxxxxxxxxxxx';
 	$object = SteamPlayer::getPlayer($steamID);
 	echo $object->realname; // all properties: https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
 	.....
 	.....
+```
 
-	//Get some objects in array, if given more than 100 ids they divided on part, 100 ids per request. 
+
+Get some objects in array, if given more than 100 ids they divided on part, 100 ids per request:
+
+```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'];
 	$objects = SteamPlayer::getPlayers($steamIDs);
 	foreach($objects as $object) {
 		.......
 	}
+```
 
 # Usage SteamPlayer
-	//load from list of steam identifiers
+Load from list of steam identifiers:
+
+```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$SteamPlayerCollection = SteamPlayer($steamIDs); //see below
+```
 
-	//load from steam id
+
+Load from steam id:
+
+```php
 	$steamID = 'xxxxxxxxxxxxxxxxxxxxxxxxx';
 	$instance = SteamPlayer::Create($steamID);
 
@@ -67,8 +83,11 @@
 	$instance->isPlaying();			// If user now play the game - true
 	echo $instance->countryCode();	// Get short name of country (RU, US, UA, DE, etc...)
 	echo $instance->localityCode();	// Get number of locality or short name (12, 4213, FL, etc...)
+```
 
 # Usage SteamPlayerCollection
+
+```php
 	// Load from list of steam identifiers
 	$steamIDs = ['xxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$SteamPlayerCollection = SteamPlayer($steamIDs); //return instance of SteamPlayerCollection class
@@ -98,17 +117,20 @@
 
 	// Get collection of Players which are playing in any of games
 	$newPlayingSteamPlayerCollection = $SteamPlayerCollection->isPlaying();
+```
 
 # Exceptions
 	// Base class of exception:
-	SteamException()
+	`SteamException()`
 
 	// Child classes:
-	HttpSteamException() // When is request error
-	FileSteamException() // When is error save file
-	InvalidParamsSteamException() // When sending invalid params to request
+	`HttpSteamException()` // When is request error
+	`FileSteamException()` // When is error save file
+	`InvalidParamsSteamException()` // When sending invalid params to request
 
-	// Examples:
+**Examples:**
+
+```php
 	// All steam exceptions
 	try {
 		some code...
@@ -116,7 +138,8 @@
 	catch(SteamException $error) {
 		echo 'I have error: '.$error->getMessage();
 	}
-
+```
+```php
 	// Save file
 	try {
 		$instance->saveAvatar('notfounddir/1.jpg');
@@ -124,7 +147,8 @@
 	catch(FileSteamException $error) {
 		echo 'I can not save the file: '.$error->getMessage();
 	}
-
+```
+```php
 	// Params error 
 	try {
 		SteamPlayer::$API_KEY = 'invalid api key';
@@ -133,7 +157,8 @@
 	catch(InvalidParamsSteamException $error) {
 		echo 'Invalid params: '.$error->getMessage();
 	}
-
+```
+```php
 	// Http error 
 	try {
 		SteamPlayer::getPlayer('xxxxxxxxxxxxxx');
@@ -141,17 +166,22 @@
 	catch(HttpSteamException $error) {
 		echo 'I can not send request: '.$error->getMessage();
 	}
-
+```
 # Usage examples
-	// Get game name of users from RU, EN, UA countries:
+Get game name of users from RU, EN, UA countries:
+
+```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$collection = SteamPlayer::Create($steamIDs);
 	$newCollection = $collection->country(['RU', 'EN', 'UA'])->isPlaying();
 	foreach($newCollection->get() as $SteamPlayer) {
 		echo $SteamPlayer->gameName();
 	}
-	
-	// Get users which playing in Dota2 and CS:GO from Ukraine:
+```
+
+Get users which playing in Dota2 and CS:GO from Ukraine:
+
+```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$collection = SteamPlayer::Create($steamIDs);
 	$dota2AppId = 570;
@@ -163,8 +193,12 @@
 		echo $steamPlayer->steamid;	// Get by magic method
 		echo $steamPlayer->primaryclanid; // Get by magic method
 	}
+```
+
 	
-	// Download avatar at users which from Russian Federation, Moskow or Krasnoyarsk and status not away
+Download avatar at users which from Russian Federation, Moskow or Krasnoyarsk and status not away:
+
+```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$collection = SteamPlayer::Create($steamIDs);
 	$moskowID = '47';
@@ -173,15 +207,24 @@
 	foreach($newCollection->get() as $SteamPlayer) {
 		$SteamPlayer->saveAvatar($SteamPlayer->steamID().'.jpg', SteamPlayer::AVATAR_MEDIUM);
 	}
-	
-	// Get single instance of SteamPlayer
+```
+
+
+Get single instance of SteamPlayer:
+
+```php
 	$steamID = 'xxxxxxxxxxxxxxxxxxxxxx';
 	$instance = SteamPlayer::Create($steamID);
 	echo $instance->lastlogoff; // Get by magic method
 	echo $instance->avatar(SteamPlayer::AVATAR_SMALL); // Get link to small avatar
+```
+
 # Last Update
-	//Added function for get the friend list
+Added function for get the friend list
+
+```php
 	$friendsSteamPlayerCollection = $SteamPlayer->Friends();
 	foreach($friendsSteamPlayerCollection->get() as $friend) {
 		.....
 	}
+```
