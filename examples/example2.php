@@ -22,7 +22,7 @@ foreach($friendsSteamPlayersCollection->get() as $friend) {
 echo '<hr/>';
 
 
-##################    Get friends which are living in RU and UA 	########################
+##################    Get friends which are living in RU and PE 	########################
 
 $newCollection = $friendsSteamPlayersCollection->country(['RU', 'PE']);
 foreach($newCollection->get() as $friend) {
