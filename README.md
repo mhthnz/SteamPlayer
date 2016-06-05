@@ -81,21 +81,21 @@
 	// Get collection of Players, with the specified status
 	$newOnlineSteamPlayerCollection = $SteamPlayerCollection->status(SteamPlayer::STATUS_ONLINE); 
 	
-	// Get collection of Players, excluding the specified statuses
+	// Get collection of Players, excluding by specified statuses
 	$newOtherSteamPlayerCollection = $SteamPlayerCollection->statusNot([SteamPlayer::STATUS_OFFLINE, SteamPlayer::STATUS_BUSY]);	
 	
-	// Get a collection that consists Players, with specified countries
+	// Get a collection of Players living in specified countries
 	$newCountrySteamPlayerCollection = $SteamPlayerCollection->country(['RU', 'US']);
 
 	// Get collection by profile state (private/public)
 	$newPrivateSteamPlayerCollection = $SteamPlayerCollection->isPrivate();
 	$newPublicSteamPlayerCollection = $SteamPlayerCollection->isPublic();
 
-	// Get collection that consists of Players which are playing in specified game
+	// Get collection of Players which are playing in specified game
 	$gameID = '21331'; // App identifier of game, may be array or string
 	$newGameSteamPlayerCollection = $SteamPlayerCollection->inGame($gameID);
 
-	// Get collection that consist of Players which are playing in any game
+	// Get collection of Players which are playing in any of games
 	$newPlayingSteamPlayerCollection = $SteamPlayerCollection->isPlaying();
 
 # Exceptions
