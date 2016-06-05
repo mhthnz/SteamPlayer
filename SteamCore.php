@@ -29,11 +29,11 @@ class FileSteamException extends SteamException{}
  *
  *	@property string $API_KEY Key for access to Steam API
  */
-class SteamCore{
+class SteamCore {
 
 	/**
 	 *	@var Key for Steam API
-	 **/
+	 */
 	public static $API_KEY;
 
 

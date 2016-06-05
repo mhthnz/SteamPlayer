@@ -49,7 +49,6 @@ class SteamPlayerCollection {
 	{
 		$this->_instances = $instances;
 		$this->_count = count($instances);
-		
 		if ($indexes !== false) {
 			$this->_indexes = $indexes;
 		} else {
@@ -203,10 +202,10 @@ class SteamPlayerCollection {
 	{
 		$ids = [];
 		//if given array values, search by each value
-		if (array_key_exists($criteria, $this->_indexes)){
-			if (is_array($values)){
-				foreach($values as $value){
-					if (array_key_exists($value, $this->_indexes[ $criteria ])){
+		if (array_key_exists($criteria, $this->_indexes)) {
+			if (is_array($values)) {
+				foreach($values as $value) {
+					if (array_key_exists($value, $this->_indexes[ $criteria ])) {
 						$currentIds = $this->_indexes[ $criteria ][ $value ];
 						$ids = array_merge($currentIds, $ids);
 					}

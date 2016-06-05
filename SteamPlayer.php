@@ -9,7 +9,7 @@ include 'SteamPlayerCollection.php';
  *		SteamPlayer::$API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxx';
  *
  **/
-class SteamPlayer extends SteamCore{
+class SteamPlayer extends SteamCore {
 
 
 	/**
@@ -43,7 +43,7 @@ class SteamPlayer extends SteamCore{
 	 */
 	public static function Create($steamIDs)
 	{	
-		//If not array
+		// If not array
 		if (!is_array($steamIDs)) {
 			$player = static::getPlayer($steamIDs);
 			if ($player !== false) {
@@ -52,7 +52,7 @@ class SteamPlayer extends SteamCore{
 				return false;
 			}
 		}
-		//If array
+		// If array
 		$countIDs = count($steamIDs);
 		$players = [];
 		if ($countIDs <= 100) {
@@ -67,7 +67,7 @@ class SteamPlayer extends SteamCore{
 				}
 			}
 		}
-		//Create instances
+		// Create instances
 		$instances = [];
 		foreach($players as $player) {
 			$instances[] = new static($player);
@@ -159,7 +159,7 @@ class SteamPlayer extends SteamCore{
 
 
 	/**
-	 *	Get locallity code, if not private profile.
+	 *	Get locallity code if not private profile.
 	 *	@return integer|NULL
 	 */
 	public function localityCode()
@@ -179,7 +179,7 @@ class SteamPlayer extends SteamCore{
 
 
 	/**
-	 *	Get name of game, currently playing.
+	 *	Get name of game currently playing.
 	 *	@return string|NULL
 	 */
 	public function gameName()
@@ -189,7 +189,7 @@ class SteamPlayer extends SteamCore{
 
 
 	/**
-	 *	Get appID of game, currently playing.
+	 *	Get appID of game currently playing.
 	 *	@return integer|NULL
 	 */
 	public function gameId()
