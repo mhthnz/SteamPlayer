@@ -38,6 +38,7 @@
 	echo $instance->realName(); // Get realname from profile
 	echo $instance->steamID();	// Get steam identifier 64 bit
 	echo $instance->get();		// Get Steam Object with data, see up Easy to use
+	echo $instance->Friends();	// Get friends list in SteamPlayerCollection instance
 
 	echo $instance->realname; // Get by magic method
 	echo $instance->steamid;	// Get by magic method
@@ -178,4 +179,9 @@
 	$instance = SteamPlayer::Create($steamID);
 	echo $instance->lastlogoff; // Get by magic method
 	echo $instance->avatar(SteamPlayer::AVATAR_SMALL); // Get link to small avatar
-	
+# Last Update
+	//Added function for get the friend list
+	$friendsSteamPlayerCollection = $SteamPlayer->Friends();
+	foreach($friendsSteamPlayerCollection->get() as $friend) {
+		.....
+	}

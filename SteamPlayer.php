@@ -105,6 +105,29 @@ class SteamPlayer extends SteamCore {
 		return $this->_cache->$name;
 	}
 
+
+	/**
+	 *	Get friends at the current user
+	 *	return NULL if profile state is private
+	 *	@return SteamPlayerCollection instance|NULL
+	 */
+	public function Friends()
+	{
+		$friends = [];
+		if ($this->isPrivate()) return NULL;
+		$url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/';
+		$params = [
+			'steamid' 		=> $this->steamID(),
+			'relationship' 	=> 'friend'
+		];
+		$json = static::http($url, $params);
+		if (property_exists($json, 'friendslist') && count($json->friendslist->friends))
+			foreach($json->friendslist->friends as $friend) {
+				$friends[] = $friend->steamid;
+			}
+		return static::Create($friends);
+	}
+
 	
 	/**
 	 *	Get nickname.
@@ -278,9 +301,9 @@ class SteamPlayer extends SteamCore {
 		if (!$count || $count > 100 ) return false;
 		$url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/';
 		$params = ['steamids' => implode(',', $steamIDs)];
-		$response = static::http($url, $params);
-		if ($response === false) return false;
-		return $response->players;
+		$json = static::http($url, $params);
+		if ($json === false) return false;
+		return $json->response->players;
 	}
 
 

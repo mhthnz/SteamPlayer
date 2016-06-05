@@ -64,8 +64,8 @@ class SteamCore {
 			}
 		}
 		$json = json_decode($response);
-		if (!$response) return false;
-		return $json->response;
+		if (!$json) return false;
+		return $json;
 	}
 
 
