@@ -78,24 +78,24 @@
 		echo $player->nickName();
 	}
 
-	// Select collection relevant to this status
+	// Get collection of Players, with the specified status
 	$newOnlineSteamPlayerCollection = $SteamPlayerCollection->status(SteamPlayer::STATUS_ONLINE); 
 	
-	// Select collection in which structure not will be instances of SteamPlayer with the specified status
+	// Get collection of Players, excluding the specified statuses
 	$newOtherSteamPlayerCollection = $SteamPlayerCollection->statusNot([SteamPlayer::STATUS_OFFLINE, SteamPlayer::STATUS_BUSY]);	
 	
-	// Select collection it consist of instances of SteamPlayer class following countries
+	// Get a collection that consists Players, with specified countries
 	$newCountrySteamPlayerCollection = $SteamPlayerCollection->country(['RU', 'US']);
 
-	// Select collection by profile state (private/public)
+	// Get collection by profile state (private/public)
 	$newPrivateSteamPlayerCollection = $SteamPlayerCollection->isPrivate();
 	$newPublicSteamPlayerCollection = $SteamPlayerCollection->isPublic();
 
-	//Select collection which currently playing in following game
+	// Get collection that consists of Players which are playing in specified game
 	$gameID = '21331'; // App identifier of game, may be array or string
 	$newGameSteamPlayerCollection = $SteamPlayerCollection->inGame($gameID);
 
-	//Select collection which currently playing what some game
+	// Get collection that consist of Players which are playing in any game
 	$newPlayingSteamPlayerCollection = $SteamPlayerCollection->isPlaying();
 
 # Exceptions
@@ -142,7 +142,7 @@
 	}
 
 # Usage examples
-	// Get game name by conditions:
+	// Get game name of users from RU, EN, UA countries:
 	$steamIDs = ['xxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxx', ....];
 	$collection = SteamPlayer::Create($steamIDs);
 	$newCollection = $collection->country(['RU', 'EN', 'UA'])->isPlaying();
