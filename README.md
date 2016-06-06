@@ -37,7 +37,7 @@ Load from list of steam identifiers:
 
 ```php
 	$steamIDs = ['xxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxx', ....];
-	$SteamPlayerCollection = SteamPlayer($steamIDs); //see below
+	$SteamPlayerCollection = SteamPlayer::Create($steamIDs); //see below
 ```
 
 
@@ -90,7 +90,7 @@ Load from steam id:
 ```php
 	// Load from list of steam identifiers
 	$steamIDs = ['xxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxx', ....];
-	$SteamPlayerCollection = SteamPlayer($steamIDs); //return instance of SteamPlayerCollection class
+	$SteamPlayerCollection = SteamPlayer::Create($steamIDs); //return instance of SteamPlayerCollection class
 
 	echo $SteamPlayerCollection->count(); 		// Get count instances of SteamPlayer in collection
 	$instances = $SteamPlayerCollection->get(); // Get an array of instances of SteamPlayer class
