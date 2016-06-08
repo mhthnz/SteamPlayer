@@ -117,6 +117,11 @@ Load from steam id:
 
 	// Get collection of Players which are playing in any of games
 	$newPlayingSteamPlayerCollection = $SteamPlayerCollection->isPlaying();
+
+	//Merge collections
+	$collection = new SteamPlayerCollection([]);
+	$collection->mergeCollection($newPlayingSteamPlayerCollection);
+	echo $collection->count();
 ```
 
 # Exceptions

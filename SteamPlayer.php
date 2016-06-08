@@ -70,7 +70,7 @@ class SteamPlayer extends SteamCore {
 		// Create instances
 		$instances = [];
 		foreach($players as $player) {
-			$instances[] = new static($player);
+			$instances[$player->steamid] = new static($player);
 		}
 		return new SteamPlayerCollection($instances);
 	}

@@ -32,12 +32,12 @@ class SteamPlayerCollection {
 	 *	@var array list of indexing type (name => SteamPlayer::method)
 	 */
 	protected static $_sortingBy = [
-		'status' 	=>	['function' => 'getStatus'],
-		'country' 	=>	['function' => 'countryCode'],
-		'isplaying'	=>	['function' => 'isPlaying'],
-		'locality'	=>	['function' => 'localityCode'],
-		'game'		=>	['function' => 'gameId'],
-		'private'	=>	['function' => 'isPrivate'],
+		'status' 	=>	'getStatus',
+		'country' 	=>	'countryCode',
+		'isplaying'	=>	'isPlaying',
+		'locality'	=>	'localityCode',
+		'game'		=>	'gameId',
+		'private'	=>	'isPrivate',
 	];
 
 	/**
@@ -56,6 +56,23 @@ class SteamPlayerCollection {
 		}
 	}
 
+
+
+	/**
+	 *	Merges this class with specified instances.
+	 *	@param SteamPlayerCollection $collection Object of SteamPlayerCollection instance
+	 */
+	public function mergeCollection(SteamPlayerCollection $collection)
+	{
+		if (!count($instances)) {
+			return;	
+		} 
+		$this->_instances = array_merge($this->_instances, $collection->get());
+		$this->_indexes = array_merge_recursive($this->_indexes, $collection->getIndex());
+		$this->_count = count($this->_instances);
+	}
+
+
 	/**
 	 *	Get all instances of SteamPlayer in current collection.
 	 *	@return array SteamPlayer instances
@@ -65,6 +82,15 @@ class SteamPlayerCollection {
 		return $this->_instances;
 	}
 
+
+	/**
+	 *	Get index of instances array	
+	 *	@return array indexes
+	 */
+	public function getIndex()
+	{
+		return $this->_indexes;
+	}
 
 	/**
 	 *	Get total count instances of SteamPlayer in current collection.
@@ -180,11 +206,11 @@ class SteamPlayerCollection {
 	 */
 	protected function indexInstances($instances)
 	{
-		foreach($this->_instances as $key => $instance) {
-			foreach(self::$_sortingBy as $criteria => $option) {
-				$value = $instance->$option['function']();
+		foreach($instances as $key => $instance) {
+			foreach(self::$_sortingBy as $criteria => $function) {
+				$value = $instance->$function();
 				if ($value !== NULL) {
-					$this->_indexes[ $criteria ][ $value ][] = $key;
+					$this->_indexes[ $criteria ][ $value ][$instance->steamID()] = 0;
 				}
 			}
 		}
@@ -200,27 +226,28 @@ class SteamPlayerCollection {
 	 */
 	protected function searchInstances($criteria, $values)
 	{
-		$ids = [];
+		$instances = [];
 		//if given array values, search by each value
 		if (array_key_exists($criteria, $this->_indexes)) {
+			$ids = [];
 			if (is_array($values)) {
 				foreach($values as $value) {
 					if (array_key_exists($value, $this->_indexes[ $criteria ])) {
-						$currentIds = $this->_indexes[ $criteria ][ $value ];
+						$currentIds = array_keys($this->_indexes[ $criteria ][ $value ]);
 						$ids = array_merge($currentIds, $ids);
 					}
 				}
 			} else { //string given
 				if (array_key_exists($values, $this->_indexes[ $criteria ])) {
-					$ids = array_merge($ids, $this->_indexes[ $criteria ][ $values ]);
+					$ids = array_merge($ids, array_keys($this->_indexes[ $criteria ][ $values ]));
 				}
 			}
 			$ids = array_flip($ids);		
-			$instances = [];
 			$instances = array_intersect_key($this->_instances, $ids);
 		}
 		//get appropriate instances and return new static class
 		return new static($instances, $this->_indexes);
 	}	
+
 
 }
